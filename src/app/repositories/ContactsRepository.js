@@ -4,8 +4,13 @@ class ContactsRepository {
   async findAll(orderBy = 'ASC') {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
     const rows = await db.query(`
-      SELECT * FROM contacts
-      ORDER BY name ${direction}
+      SELECT
+        contacts.*,
+        categories.name category_name
+      FROM contacts
+      INNER JOIN categories
+        on categories.id = contacts.category_id
+      ORDER BY contacts.name ${direction}
     `);
 
     return rows;
