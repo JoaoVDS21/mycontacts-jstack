@@ -39,7 +39,7 @@ class ContactController {
       return response.status(400).json({ error: 'Invalid category'});
     }
 
-    if(store){
+    if(email){
       const contactExists = await ContactsRepository.findByEmail(email);
       if(contactExists) {
         return response.status(400).json({ error: 'This e-mail is already in use'});
