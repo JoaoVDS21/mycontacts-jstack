@@ -8,7 +8,7 @@ class ContactsRepository {
         contacts.*,
         categories.name category_name
       FROM contacts
-      INNER JOIN categories
+      LEFT JOIN categories
         on categories.id = contacts.category_id
       ORDER BY contacts.name ${direction}
     `);
@@ -19,7 +19,9 @@ class ContactsRepository {
   async findById(id) {
     const [row] = await db.query(`
       SELECT * FROM contacts
-      WHERE id = $1
+      LEFT JOIN categories
+        on categories.id = contacts.category_id
+      WHERE contacts.id = $1
     `, [id]);
 
     return row;
