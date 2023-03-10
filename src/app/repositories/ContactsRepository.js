@@ -18,7 +18,10 @@ class ContactsRepository {
 
   async findById(id) {
     const [row] = await db.query(`
-      SELECT * FROM contacts
+      SELECT
+        contacts.*,
+        categories.id category_id
+      FROM contacts
       LEFT JOIN categories
         on categories.id = contacts.category_id
       WHERE contacts.id = $1
